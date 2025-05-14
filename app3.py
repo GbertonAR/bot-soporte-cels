@@ -190,34 +190,34 @@ async def handle(request):
         if response:
             return web.json_response(response.body, status=response.status)
         return web.Response(status=200)
-    elif request.match_info.route.name == "root":
-        # Serve the welcome HTML page
-        html_content = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Bienvenido Bot Activo</title>
-            <style>
-                body {
-                    background-color: #0000FF; /* Azul */
-                    color: #FFFFFF; /* Blanco */
-                    font-family: Monserrat, sans-serif;
-                    font-size: 2.2em; /* Tamaño mediano */
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                    margin: 0;
-                    font-family: sans-serif;
-                }
-            </style>
-        </head>
-        <body>
-            <h1>Bienvenido Bot Activo</h1>
-        </body>
-        </html>
-        """
-        return web.Response(text=html_content, content_type="text/html")
+    # elif request.match_info.route.name == "root":
+    #     # Serve the welcome HTML page
+    #     html_content = """
+    #     <!DOCTYPE html>
+    #     <html>
+    #     <head>
+    #         <title>Bienvenido Bot Activo</title>
+    #         <style>
+    #             body {
+    #                 background-color: #0000FF; /* Azul */
+    #                 color: #FFFFFF; /* Blanco */
+    #                 font-family: Monserrat, sans-serif;
+    #                 font-size: 2.2em; /* Tamaño mediano */
+    #                 display: flex;
+    #                 justify-content: center;
+    #                 align-items: center;
+    #                 height: 100vh;
+    #                 margin: 0;
+    #                 font-family: sans-serif;
+    #             }
+    #         </style>
+    #     </head>
+    #     <body>
+    #         <h1>Bienvenido Bot Activo</h1>
+    #     </body>
+    #     </html>
+    #     """
+    #     return web.Response(text=html_content, content_type="text/html")
     return web.Response(status=404)
 
 app = web.Application()
