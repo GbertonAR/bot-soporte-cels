@@ -2,7 +2,7 @@ import asyncio
 import sys
 import os
 #sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'botnormativa', 'canje')))
-print(sys.path)
+#print(sys.path)
 from typing import Callable
 from config_canje import MAIL_ACCOUNTS
 
@@ -180,6 +180,10 @@ async def messages(req: web.Request) -> web.Response:
     return web.Response(status=200)
 
 
+app = web.Application()
+app.router.add_post("/api/messages", handle, name="messages")
+app.router.add_get("/", handle, name="root")
+
 async def handle(request):
     if request.match_info.route.name == "messages":
         # Handle bot messages
@@ -228,11 +232,11 @@ app.router.add_get("/", handle, name="root")
 # app.router.add_post("/api/messages", messages)
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
     try:
-        #web.run_app(app, host="localhost", port=3978)
-        port = int(os.environ.get("PORT", 8000))
         web.run_app(app, host="0.0.0.0", port=port)
     except Exception as error:
+        print(f"Error starting server: {error}")
         raise error
     
 # # === Iniciar servidor ===
