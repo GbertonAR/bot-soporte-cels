@@ -1,6 +1,7 @@
 import asyncio
 import sys
 import os
+import datetime # Importa datetime
 #sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'botnormativa', 'canje')))
 #print(sys.path)
 from typing import Callable
@@ -175,23 +176,31 @@ async def messages(req: web.Request) -> web.Response:
     if response:
         return web.json_response(response.body, status=response.status)
     return web.Response(status=200)
-
-
-# app = web.Application()
-# app.router.add_post("/api/messages", handle, name="messages")
-# app.router.add_get("/", handle, name="root")
-
+######################################################
 async def handle(request):
+    print(f"[{datetime.datetime.now()}] Request recibida a: {request.path}, method: {request.method}")
     if request.match_info.route.name == "messages":
-        # Handle bot messages
-        body = await request.json()
-        activity = Activity().deserialize(body)
-        auth_header = request.headers.get("Authorization", "")
-        response = await adapter.process_activity(activity, auth_header, bot.on_turn)
-        if response:
-            return web.json_response(response.body, status=response.status)
-        return web.Response(status=200)
+        print(f"[{datetime.datetime.now()}] Request a la ruta /api/messages")
+        if "application/json" in request.headers["Content-Type"]:
+            try:
+                body = await request.json()
+                print(f"[{datetime.datetime.now()}] Cuerpo del mensaje recibido: {body}")
+                activity = Activity().deserialize(body)
+                auth_header = request.headers.get("Authorization", "")
+                response = await adapter.process_activity(activity, auth_header, bot.on_turn)
+                if response:
+                    print(f"[{datetime.datetime.now()}] Respuesta del bot: {response.body}, status: {response.status}")
+                    return web.json_response(response.body, status=response.status)
+                print(f"[{datetime.datetime.now()}] Respuesta vacía del bot.")
+                return web.Response(status=200)
+            except Exception as e:
+                print(f"[{datetime.datetime.now()}] Error al procesar el mensaje: {e}")
+                return web.json_response({"error": str(e)}, status=500)
+        else:
+            print(f"[{datetime.datetime.now()}] Content-Type incorrecto: {request.headers.get('Content-Type')}")
+            return web.Response(status=415)
     elif request.match_info.route.name == "root":
+        print(f"[{datetime.datetime.now()}] Request a la ruta /")
         # Serve the welcome HTML page
         html_content = """
         <!DOCTYPE html>
@@ -219,11 +228,61 @@ async def handle(request):
         </html>
         """
         return web.Response(text=html_content, content_type="text/html")
+    print(f"[{datetime.datetime.now()}] Ruta no encontrada: {request.path}")
     return web.Response(status=404)
 
 app = web.Application()
 app.router.add_post("/api/messages", handle, name="messages")
 app.router.add_get("/", handle, name="root")
+
+
+
+
+
+#############################################################
+# async def handle(request):
+#     if request.match_info.route.name == "messages":
+#         # Handle bot messages
+#         body = await request.json()
+#         activity = Activity().deserialize(body)
+#         auth_header = request.headers.get("Authorization", "")
+#         response = await adapter.process_activity(activity, auth_header, bot.on_turn)
+#         if response:
+#             return web.json_response(response.body, status=response.status)
+#         return web.Response(status=200)
+#     elif request.match_info.route.name == "root":
+#         # Serve the welcome HTML page
+#         html_content = """
+#         <!DOCTYPE html>
+#         <html>
+#         <head>
+#             <title>Bienvenido Bot Activo</title>
+#             <style>
+#                 body {
+#                     background-color: #0000FF; /* Azul */
+#                     color: #FFFFFF; /* Blanco */
+#                     font-family: Monserrat, sans-serif;
+#                     font-size: 2.2em; /* Tamaño mediano */
+#                     display: flex;
+#                     justify-content: center;
+#                     align-items: center;
+#                     height: 100vh;
+#                     margin: 0;
+#                     font-family: sans-serif;
+#                 }
+#             </style>
+#         </head>
+#         <body>
+#             <h1>Bienvenido Bot Activo</h1>
+#         </body>
+#         </html>
+#         """
+#         return web.Response(text=html_content, content_type="text/html")
+#     return web.Response(status=404)
+
+# app = web.Application()
+# app.router.add_post("/api/messages", handle, name="messages")
+# app.router.add_get("/", handle, name="root")
 
 # app = web.Application()
 # app.router.add_post("/api/messages", messages)
