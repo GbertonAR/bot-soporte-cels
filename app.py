@@ -162,7 +162,11 @@ USER_STATE = UserState(MEMORY)
 #     }
 # )
 
-adapter = BotFrameworkAdapter(settings={})
+# adapter = BotFrameworkAdapter(settings={})
+adapter = BotFrameworkAdapter(
+    app_id=os.environ.get("MicrosoftAppId"),
+    app_password=os.environ.get("MicrosoftAppPassword")
+)
 
 async def messages(req: web.Request) -> web.Response:
     if "application/json" in req.headers["Content-Type"]:
@@ -177,6 +181,8 @@ async def messages(req: web.Request) -> web.Response:
     if response:
         return web.json_response(response.body, status=response.status)
     return web.Response(status=200)
+
+
 ######################################################
 async def handle(request):
     print(f"[{datetime.datetime.now()}] Request recibida a: {request.path}, method: {request.method}")
