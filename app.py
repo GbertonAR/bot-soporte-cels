@@ -18,7 +18,7 @@ from botbuilder.core import (
 from botbuilder.schema import Activity, ActivityTypes, ActionTypes, HeroCard, CardAction
 #from botbuilder.core.adapters import SimpleAdapter  # Ya no lo usaremos directamente
 #from botbuilder.dialogs import DialogSet, WaterfallDialog, TextPrompt, DialogTurnResult
-from botbuilder.core import Bot, BotAdapter, BotFrameworkAdapter, ConversationState, MemoryStorage, TurnContext, UserState, MessageFactory, CardFactory
+#from botbuilder.core import Bot, BotAdapter, BotFrameworkAdapter, ConversationState, MemoryStorage, TurnContext, UserState, MessageFactory, CardFactory
 # from botbuilder.schema import ActionTypes, HeroCard, CardAction
 from aiohttp import web
 
@@ -67,7 +67,9 @@ class SupportBot(Bot):
                 CardAction(type=ActionTypes.im_back, title="Salir", value="salir"),
             ],
         )
-        reply = MessageFactory.attachment(CardFactory.hero_card(card))
+        #reply = MessageFactory.attachment(CardFactory.hero_card(card))
+        reply = MessageFactory.attachments([CardFactory.hero_card(card)])
+
         print(f"Contenido del reply: {reply}")
         await turn_context.send_activity(reply)
 
@@ -100,7 +102,7 @@ class SupportBot(Bot):
     #     await turn_context.send_activity("Conectando con un agente de soporte en vivo...")
         
     async def live_support(self, turn_context: TurnContext):
-            import datetime
+            #import datetime
             import smtplib
             from email.mime.text import MIMEText
 
@@ -287,13 +289,24 @@ app.router.add_get("/", handle, name="root")
 # app = web.Application()
 # app.router.add_post("/api/messages", messages)
 
-if __name__ == "__main__":
+def main():
     port = int(os.environ.get("PORT", 8000))
     try:
         web.run_app(app, host="0.0.0.0", port=port)
     except Exception as error:
         print(f"Error starting server: {error}")
-        raise error
+        raise
+
+if __name__ == "__main__":
+    main()    
+
+# if __name__ == "__main__":
+#     port = int(os.environ.get("PORT", 8000))
+#     try:
+#         web.run_app(app, host="0.0.0.0", port=port)
+#     except Exception as error:
+#         print(f"Error starting server: {error}")
+#         raise error
     
 # # === Iniciar servidor ===
 # if __name__ == "__main__":
