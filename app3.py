@@ -229,6 +229,7 @@ app.router.add_get("/", handle, name="root")
 
 if __name__ == "__main__":
     try:
-        web.run_app(app, host="localhost", port=3978)
+        #web.run_app(app, host="localhost", port=3978)
+        web.run_app(app, host="0.0.0.0", port=port)
     except Exception as error:
         raise error
