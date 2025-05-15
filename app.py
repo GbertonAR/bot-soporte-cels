@@ -2,8 +2,6 @@ import asyncio
 import sys
 import os
 import datetime # Importa datetime
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'botnormativa', 'canje')))
-#print(sys.path)
 from typing import Callable
 from config_canje import MAIL_ACCOUNTS
 from botbuilder.core import (
@@ -16,6 +14,7 @@ from botbuilder.core import (
     UserState,
 )
 from botbuilder.schema import Activity, ActivityTypes, ActionTypes, HeroCard, CardAction
+from botbuilder.core import MessageFactory, CardFactory
 #from botbuilder.core.adapters import SimpleAdapter  # Ya no lo usaremos directamente
 #from botbuilder.dialogs import DialogSet, WaterfallDialog, TextPrompt, DialogTurnResult
 #from botbuilder.core import Bot, BotAdapter, BotFrameworkAdapter, ConversationState, MemoryStorage, TurnContext, UserState, MessageFactory, CardFactory
@@ -290,8 +289,10 @@ app.router.add_get("/", handle, name="root")
 # app.router.add_post("/api/messages", messages)
 
 def main():
-    PORT = int(os.environ.get("PORT", 3978))
+    PORT = int(os.environ.get("PORT", 8000))
+    print(f"🌐 main en http://0.0.0.0:{PORT}")
     try:
+        print(f"🌐 Iniciando en http://0.0.0.0:{PORT}")
         web.run_app(app, host="0.0.0.0", port=PORT)
     except Exception as error:
         print(f"Error starting server: {error}")
