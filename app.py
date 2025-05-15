@@ -3,8 +3,14 @@ from botbuilder.core import BotFrameworkAdapter, TurnContext, ActivityHandler
 from botbuilder.schema import Activity, ActivityTypes
 import os
 
+print("APP_ID:", os.environ.get("MicrosoftAppId"))
+print("APP_PASSWORD:", os.environ.get("MicrosoftAppPassword"))
+
 APP_ID = os.environ.get("MicrosoftAppId")
 APP_PASSWORD = os.environ.get("MicrosoftAppPassword")
+
+print(f"App ID: {APP_ID}")
+print(f"App Password: {APP_PASSWORD}")
 
 from botbuilder.core import BotFrameworkAdapterSettings
 
