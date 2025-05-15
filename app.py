@@ -227,13 +227,14 @@ app.router.add_get("/", handle, name="root")
 # app = web.Application()
 # app.router.add_post("/api/messages", messages)
 
-# if __name__ == "__main__":
-#     try:
-#         #web.run_app(app, host="localhost", port=3978)
-#         web.run_app(app, host="0.0.0.0", port=port)
-#     except Exception as error:
-#         raise error
-    
-# === Iniciar servidor ===
 if __name__ == "__main__":
-    app.run(debug=False)    
+    try:
+        #web.run_app(app, host="localhost", port=3978)
+        port = int(os.environ.get("PORT", 8000))
+        web.run_app(app, host="0.0.0.0", port=port)
+    except Exception as error:
+        raise error
+    
+# # === Iniciar servidor ===
+# if __name__ == "__main__":
+#     app.run(debug=False)    
