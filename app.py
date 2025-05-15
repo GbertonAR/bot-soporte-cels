@@ -290,9 +290,9 @@ app.router.add_get("/", handle, name="root")
 # app.router.add_post("/api/messages", messages)
 
 def main():
-    port = int(os.environ.get("PORT", 8000))
+    PORT = int(os.environ.get("PORT", 3978))
     try:
-        web.run_app(app, host="0.0.0.0", port=port)
+        web.run_app(app, host="0.0.0.0", port=PORT)
     except Exception as error:
         print(f"Error starting server: {error}")
         raise
