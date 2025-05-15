@@ -5,8 +5,6 @@ import os
 #print(sys.path)
 from typing import Callable
 from config_canje import MAIL_ACCOUNTS
-
-
 from botbuilder.core import (
     Bot,
     BotAdapter,
@@ -16,12 +14,11 @@ from botbuilder.core import (
     TurnContext,
     UserState,
 )
-from botbuilder.schema import Activity, ActivityTypes
+from botbuilder.schema import Activity, ActivityTypes, ActionTypes, HeroCard, CardAction
 #from botbuilder.core.adapters import SimpleAdapter  # Ya no lo usaremos directamente
 #from botbuilder.dialogs import DialogSet, WaterfallDialog, TextPrompt, DialogTurnResult
 from botbuilder.core import Bot, BotAdapter, BotFrameworkAdapter, ConversationState, MemoryStorage, TurnContext, UserState, MessageFactory, CardFactory
-from botbuilder.schema import ActionTypes, HeroCard, CardAction
-
+# from botbuilder.schema import ActionTypes, HeroCard, CardAction
 from aiohttp import web
 
 class SupportBot(Bot):
@@ -180,9 +177,9 @@ async def messages(req: web.Request) -> web.Response:
     return web.Response(status=200)
 
 
-app = web.Application()
-app.router.add_post("/api/messages", handle, name="messages")
-app.router.add_get("/", handle, name="root")
+# app = web.Application()
+# app.router.add_post("/api/messages", handle, name="messages")
+# app.router.add_get("/", handle, name="root")
 
 async def handle(request):
     if request.match_info.route.name == "messages":
