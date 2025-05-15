@@ -50,8 +50,7 @@ async def main():
     web.run_app(app, host="0.0.0.0", port=port)
 
 if __name__ == "__main__":
-    import asyncio
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        pass
+    app = web.Application()
+    app.router.add_post("/api/messages", messages)
+    port = int(os.environ.get("PORT", 8000))
+    web.run_app(app, host="0.0.0.0", port=port)
