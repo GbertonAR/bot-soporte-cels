@@ -6,10 +6,10 @@ import os
 APP_ID = os.environ.get("MicrosoftAppId")
 APP_PASSWORD = os.environ.get("MicrosoftAppPassword")
 
-adapter = BotFrameworkAdapter(
-    app_id=APP_ID,
-    app_password=APP_PASSWORD
-)
+from botbuilder.core import BotFrameworkAdapterSettings
+
+adapter_settings = BotFrameworkAdapterSettings(APP_ID, APP_PASSWORD)
+adapter = BotFrameworkAdapter(adapter_settings)
 
 class SaludoBot(ActivityHandler):
     async def on_members_added_activity(
