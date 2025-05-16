@@ -92,7 +92,8 @@ class SupportBot(Bot):
             if member.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity("¡Hola! Soy el bot de soporte. Escribe 'hola' o 'menú' para comenzar.")
 
-    async def show_menu(self, turn_context: TurnContext):
+async def show_menu(self, turn_context: TurnContext):
+        await turn_context.send_activity("Por favor, elige una opción del menú:") # Mensaje de texto adicional
         card = HeroCard(
             title="Menú Principal",
             text="Por favor, elige una opción:",
@@ -106,7 +107,7 @@ class SupportBot(Bot):
             ],
         )
         reply = MessageFactory.attachments([CardFactory.hero_card(card)])
-        await turn_context.send_activity(reply)
+        await turn_context.send_activity(reply)        
 
     async def show_documents(self, turn_context: TurnContext):
         documents = [
