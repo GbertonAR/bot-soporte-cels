@@ -197,27 +197,50 @@ async def handle(request):
         return web.Response(status=415)
 
     elif request.match_info.route.name == "root":
-        html_content = """
-        <!DOCTYPE html>
-        <html>
-        <head><title>Bienvenido Bot Activo</title>
-        <style>
-            body {
-                background-color: #0000FF;
-                color: #FFFFFF;
-                font-family: Monserrat, sans-serif;
-                font-size: 2.2em;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-            }
-        </style></head>
-        <body><h1>Bienvenido Bot Activo</h1></body></html>
-        """
-        return web.Response(text=html_content, content_type="text/html")
-
+            web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?botAvatarInitials=Bot&userAvatarInitials=User"
+            html_content = f"""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Bienvenido Bot Activo</title>
+                <style>
+                    body {{
+                        background-color: #0000FF;
+                        color: #FFFFFF;
+                        font-family: Monserrat, sans-serif;
+                        font-size: 2.2em;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        margin: 0;
+                    }}
+                    #webchat-container {{
+                        margin-top: 20px;
+                        min-width: 400px;
+                        width: 100%;
+                        max-width: 800px;
+                        min-height: 500px;
+                        border: none;
+                    }}
+                    /* Media query para pantallas más pequeñas */
+                    @media (max-width: 600px) {{
+                        #webchat-container {{
+                            min-width: 100%;
+                            height: 70vh;
+                        }}
+                    }}
+                </style>
+            </head>
+            <body>
+                <h1>Bienvenido Bot Activo</h1>
+                <iframe id="webchat-container" src="{web_chat_url}" scrolling="auto"></iframe>
+            </body>
+            </html>
+            """
+            return web.Response(text=html_content, content_type="text/html")
+    #elif request.match_info.route.name == "root":    
     return web.Response(status=404)
 
 app = web.Application()
