@@ -49,6 +49,30 @@ memory = MemoryStorage()
 conversation_state = ConversationState(memory)
 user_state = UserState(memory)
 
+import json
+import urllib.parse
+
+
+
+
+accent_color = "#FFC107"  # Amarillo ámbar
+background_color = "#f0f8ff"  # Alice Blue (un azul muy claro)
+bot_avatar_bg = "#007bff"  # Azul primario
+user_avatar_bg = "#28a745"  # Verde éxitos
+custom_styles = {
+    "bubbleBackground": "#e0f7fa",  # Azul claro para las burbujas del bot
+    "bubbleTextColor": "#1a237e",  # Azul oscuro para el texto del bot
+    "userBubbleBackground": "#fffde7", # Amarillo muy claro para las burbujas del usuario
+    "userBubbleTextColor": "#4a148c", # Morado oscuro para el texto del usuario
+    "botAvatarImage": "URL_DEL_AVATAR_DE_TU_BOT",
+    "userAvatarImage": "URL_DEL_AVATAR_DEL_USUARIO_POR_DEFECTO",
+    "typingAnimationBackgroundColor": "#ffeb3b", # Amarillo brillante para la animación de escritura
+    "sendButtonBackground": accent_color,
+    "sendButtonColor": "#fff"
+}
+style_options_json = json.dumps(custom_styles)
+encoded_style_options = urllib.parse.quote(style_options_json)
+
 # ========================== BOT ==========================
 
 class SupportBot(Bot):
@@ -91,8 +115,13 @@ class SupportBot(Bot):
     async def _welcome_user(self, turn_context: TurnContext):
         for member in turn_context.activity.members_added:
             if member.id != turn_context.activity.recipient.id:
-                await turn_context.send_activity("¡Hola! Soy el bot de soporte. Escribe 'hola' o 'menú' para comenzar.")
+                user_name = member.name  # Intentamos obtener el nombre del miembro
 
+                if user_name:
+                    await turn_context.send_activity(f"¡Hola, {user_name}! Soy el bot de soporte. Escribe 'hola' o 'menú' para comenzar.")
+                else:
+                    await turn_context.send_activity("¡Hola! Soy el bot de soporte. Escribe 'hola' o 'menú' para comenzar.")
+                    
     async def show_menu(self, turn_context: TurnContext):
         card = HeroCard(
             title="Menú Principal",
@@ -242,6 +271,7 @@ async def handle(request):
     elif request.match_info.route.name == "root":
             web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?s={APP_Secret}&botAvatarInitials=Bot&userAvatarInitials=User"
             # web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?s={WEBCHAT_SECRET}&botAvatarInitials=Bot&userAvatarInitials=User"
+            web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?s={APP_Secret}&botAvatarInitials=Bot&userAvatarInitials=User&styleOptions={encoded_style_options}"
             html_content = f"""
             <!DOCTYPE html>
             <html>
