@@ -121,12 +121,12 @@ class SupportBot(Bot):
             "Esta función aún está en desarrollo."
         )
         
-    async def on_message_activity(self, turn_context: TurnContext):
-            text = turn_context.activity.text.lower()
-            if text == "hola" or text == "inicio" or text == "menu":
-                await turn_context.send_activity("¡Aquí tienes el menú/inicio/saludo!")
-            else:
-                await turn_context.send_activity("No entendí. Escribe 'hola', 'iniciar' o 'menú' para ver opciones.")
+    # async def on_message_activity(self, turn_context: TurnContext):
+    #         text = turn_context.activity.text.lower()
+    #         if text == "hola" or text == "inicio" or text == "menu":
+    #             await turn_context.send_activity("¡Aquí tienes el menú/inicio/saludo!")
+    #         else:
+    #             await turn_context.send_activity("No entendí. Escribe 'hola', 'iniciar' o 'menú' para ver opciones.")
 
     async def complete_forms(self, turn_context: TurnContext):
         await turn_context.send_activity("La funcionalidad para completar formularios estará disponible pronto.")
