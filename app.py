@@ -140,7 +140,49 @@ class SupportBot(Bot):
     #             await turn_context.send_activity("No entendí. Escribe 'hola', 'iniciar' o 'menú' para ver opciones.")
 
     async def complete_forms(self, turn_context: TurnContext):
-        await turn_context.send_activity("La funcionalidad para completar formularios estará disponible pronto.")
+            card_json = {
+                    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                    "type": "AdaptiveCard",
+                    "version": "1.0",
+                    "body": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Por favor, completa el siguiente formulario:",
+                            "weight": "Bolder",
+                            "size": "Medium"
+                        },
+                        {
+                            "type": "Input.Text",
+                            "id": "nombre",
+                            "placeholder": "Tu nombre completo"
+                        },
+                        {
+                            "type": "Input.Text",
+                            "id": "email",
+                            "placeholder": "Tu correo electrónico",
+                            "style": "email"
+                        },
+                        {
+                            "type": "Input.Number",
+                            "id": "dni",
+                            "placeholder": "Tu DNI"
+                        }
+                    ],
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Enviar"
+                        }
+                    ]
+                }
+            attachment = CardFactory.adaptive_card(card_json)
+            await turn_context.send_activity(
+                    Activity(
+                        type=ActivityTypes.message,
+                        attachments=[attachment]
+                    )
+                )
+            await turn_context.send_activity("La funcionalidad para completar formularios estará disponible pronto.")
 
     async def document_library(self, turn_context: TurnContext):
         await turn_context.send_activity("Accediendo a la biblioteca de documentos...")
@@ -205,6 +247,7 @@ async def handle(request):
             <html>
             <head>
                 <title>Bienvenido Bot Activo</title>
+                <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
                 <style>
                     body {{
                         background-color: #0000FF;
