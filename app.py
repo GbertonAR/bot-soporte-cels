@@ -62,10 +62,14 @@ class SupportBot(Bot):
 
     async def _handle_message(self, turn_context: TurnContext):
         text = turn_context.activity.text.strip().lower()
+        print(f"Mensaje recibido (en _handle_message): '{text}'")
+        
         if text in ("hola", "hi", "iniciar"):
+            print("Coincidencia con 'hola', 'hi' o 'iniciar' (inicial)")
             await turn_context.send_activity("¡Hola! ¿En qué puedo ayudarte hoy?")
             await self.show_menu(turn_context)
         elif text == "menu":
+            print("Coincidencia con 'menu'")
             await self.show_menu(turn_context)
         elif text == "1":
             await self.show_documents(turn_context)
@@ -80,6 +84,7 @@ class SupportBot(Bot):
         elif text == "salir":
             await turn_context.send_activity("Gracias por tu consulta. ¡Hasta luego!")
         else:
+            print("No hubo coincidencia")
             await turn_context.send_activity("No entendí. Escribe 'hola', 'iniciar' o 'menú' para ver opciones.")
 
     async def _welcome_user(self, turn_context: TurnContext):
