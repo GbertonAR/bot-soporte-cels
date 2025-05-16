@@ -31,6 +31,7 @@ from botbuilder.schema import Activity, ActivityTypes, HeroCard, CardAction, Act
 
 APP_ID = os.environ.get("MicrosoftAppId")
 APP_PASSWORD = os.environ.get("MicrosoftAppPassword")
+APP_Secret = os.environ.get("secreto")
 
 print(f"App ID: {APP_ID}")
 print(f"App Password: {APP_PASSWORD}")
@@ -197,7 +198,8 @@ async def handle(request):
         return web.Response(status=415)
 
     elif request.match_info.route.name == "root":
-            web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?s={APP_PASSWORD}&botAvatarInitials=Bot&userAvatarInitials=User"
+            web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?s={APP_Secret}&botAvatarInitials=Bot&userAvatarInitials=User"
+            # web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?s={WEBCHAT_SECRET}&botAvatarInitials=Bot&userAvatarInitials=User"
             html_content = f"""
             <!DOCTYPE html>
             <html>
@@ -236,6 +238,7 @@ async def handle(request):
             <body>
                 <h1>Bienvenido Bot Activo</h1>
                 <iframe id="webchat-container" src="{web_chat_url}" scrolling="auto"></iframe>
+                
             </body>
             </html>
             """
