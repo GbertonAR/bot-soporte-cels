@@ -269,7 +269,7 @@ async def handle(request):
         return web.Response(status=415)
 
     elif request.match_info.route.name == "root":
-            web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?s={APP_Secret}&botAvatarInitials=Bot&userAvatarInitials=User"
+            #web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?s={APP_Secret}&botAvatarInitials=Bot&userAvatarInitials=User"
             # web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?s={WEBCHAT_SECRET}&botAvatarInitials=Bot&userAvatarInitials=User"
             web_chat_url = f"https://webchat.botframework.com/embed/mi-nuevo-bot-ansv?s={APP_Secret}&botAvatarInitials=Bot&userAvatarInitials=User&styleOptions={encoded_style_options}"
             html_content = f"""
